@@ -1,17 +1,13 @@
-// "use strict"
-// const Cliente = require('../models/Cliente');
-// const express = require('express');
-// const Route = express.Router();
+"use strict"
+const ClienteController = require('../controllers/ClienteController');
+const express = require('express');
 
-// Route.post('/Cliente',Cliente.);
+const Router = express.Router();
 
-// router.post('/productos', (req, res) => {
-//     const nuevoProducto = new Producto(req.body);
-//     nuevoProducto.save((err, producto) => {
-//       if (err) {
-//         res.status(500).send(err);
-//       } else {
-//         res.json(producto);
-//       }
-//     });
-//   });
+Router.post('/registrarCliente', ClienteController.registrarCliente);
+Router.post('/loginClientes', ClienteController.loginClientes);
+Router.get('/getAllClientes', ClienteController.getAllClientes);
+Router.get('/getAllClientes/:id', ClienteController.getById);
+Router.put('/updateCliente/:id', ClienteController.updateCliente);
+
+module.exports = Router;
