@@ -6,7 +6,7 @@ var moment = require('moment');
 
 const secret = 'pookymesa' //no se si esto va en otro lado mas seguro
 
-//post
+//POST Registro
 async function registrarCliente(req, res){//creamos una funcion async(porque tenemos que esperar respuesta) la cual va a recibir req:que es donde viene el body en req.body y una res, que es la respuesta http de la peticion
     try {
         const dataBody=req.body; //guardamos body en una constante
@@ -22,7 +22,7 @@ async function registrarCliente(req, res){//creamos una funcion async(porque ten
                     if(hash){
                         dataBody.password=hash;
                         const clienteNuevo= await Cliente.create(dataBody);//se crea el cliente y guardamos este dato en una constante para usarlo mas adelante
-                    res.status(200).json({data:clienteNuevo})
+                        res.status(200).json({data:clienteNuevo})
                     }else{
                         console.log(err);
                         res.status(500).send({message:'ErrorServer', error:err})
@@ -41,7 +41,7 @@ async function registrarCliente(req, res){//creamos una funcion async(porque ten
 
 }
 
-//post
+//POST Login
 async function loginClientes(req,res){
     try {
         const body = req.body;
@@ -50,7 +50,7 @@ async function loginClientes(req,res){
 
             const user = await Cliente.findOne({email:body.email});//aqui se encuentra el email dentro de la coleccion y trae todo el objeto
             if(!user){
-                return res.status(401).json({ message: 'Email incorrecto' });
+                return res.status(200).json({ message: 'Email incorrecto' });
             }else{
                 //verificamos contraseña
                 // console.log(user);
@@ -67,20 +67,20 @@ async function loginClientes(req,res){
                         }
                         const token = jwt.sign(payload, secret);
                         //devolvemos el token
-                        res.status(200).json({data: token})
+                        return res.status(200).json({token: token, data: user})
                     }else{
                         console.log(err)
-                        return res.status(401).send({ message: 'Contraseña incorrecta'});
+                        return res.status(200).send({ message: 'Contraseña incorrecta'});
                     }
                 })
             }
 
         }else{
-            return res.status(400).json({ message: 'Ingrese email y contraseña' });
+            return res.status(200).json({ message: 'Ingrese email y contraseña' });
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json({ message: 'Error al hacer login', error });
+        res.status(200).json({ message: 'Error al hacer login', error });
     }
 }
 

@@ -36,9 +36,11 @@ app.use((req,res,next)=>{
 
 const RouteCliente = require('./routes/RouteCliente');
 const RouteAdmin = require('./routes/RouteAdmin');
+const RouteProducto = require('./routes/RoutesProducto');
 
 app.use('/api', RouteCliente);
 app.use('/api', RouteAdmin);
+app.use('/api', RouteProducto);
 
 
 
